@@ -43,14 +43,19 @@ tagExplorer = function (tagNames, tagContainer, visiblePosts) {
         map[tag] = true;
       });
     });
-    var uniqueTags = [];
+    return extractUniqueSortedArrayFromMap(map);
+  }
+  
+  // Unit test me
+  function extractUniqueSortedArrayFromMap(map) {
+    var result = [];
     for (var key in map) {
-      uniqueTags.push(key);
+      result.push(key);
     }
-    uniqueTags.sort(function (a, b) {
+    result.sort(function (a, b) {
       return a.toLowerCase().localeCompare(b.toLowerCase());
     });
-    return uniqueTags;
+    return result;
   }
 
   function initTags() {
