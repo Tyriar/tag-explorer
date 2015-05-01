@@ -32,6 +32,26 @@ tagExplorer = function (tagNames, tagContainer, visiblePosts) {
   initTagNeighbours();
   initVisiblePosts();
   // TODO: Use a more OO approach to simplify code
+  
+  // TODO: Hook this function up if tagNames === undefined
+  // TODO: Unit test me
+  // TODO: Extract to module?
+  function getUniqueTags(articles) {
+    var map = {};
+    articles.forEach(function (article) {
+      article.tags.forEach(function (tag) {
+        map[tag] = true;
+      });
+    });
+    var uniqueTags = [];
+    for (var key in map) {
+      uniqueTags.push(key);
+    }
+    uniqueTags.sort(function (a, b) {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+    return uniqueTags;
+  }
 
   function initTags() {
     var lastLetter = '';
