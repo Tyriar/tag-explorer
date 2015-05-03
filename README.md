@@ -1,2 +1,3 @@
 # tag-explorer
-A js library enabling quick filtering of articles using multiple stacking tag selection
+
+A js library that creates a tag cloud that can filter articles additively by multiple tags.

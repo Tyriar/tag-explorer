@@ -1,0 +1,30 @@
+{
+  "name": "tag-explorer",
+  "version": "0.1.0",
+  "description": "A js library that creates a tag cloud that can filter articles additively by multiple tags.",
+  "main": "tag-explorer.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tyriar/tag-explorer.git"
+  },
+  "keywords": [
+    "tag",
+    "label"
+  ],
+  "author": "Daniel Imms (http://www.growingwiththeweb.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Tyriar/tag-explorer/issues"
+  },
+  "homepage": "https://github.com/Tyriar/tag-explorer.js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-jasmine": "^0.6.5",
+    "grunt-contrib-uglify": "^0.5.0"
+  }
+}
