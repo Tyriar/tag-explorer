@@ -2,6 +2,10 @@
 
 A js library that creates a tag cloud that can filter articles additively by multiple tags.
 
+## Multiple filters
+
+tag-explorer allows multiple tags to be filtered on, 
+
 ## Stucture and styling
 
 The following HTML is generated within `tagContainer`.
@@ -28,3 +32,7 @@ Styles can be added rooted in `tagContainer`, for example:
 .tag-container .letter-header { ... }
 .tag-container button { ... }
 ```
+
+### `.active` and `.selected`
+
+When at least one button has been toggled, the `.selected` class is added to the button and `.active` is applied to all 'tag neighbours` which are tags that are also present in articles that contain all selected tags. With styling, this allows the user to narrow down the filter much easier.
