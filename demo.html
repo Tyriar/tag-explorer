@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>tag-explorer demo</title>
+</head>
+<body>
+<menu class="tag-container"></menu>
+<article>
+  <h2>An article</h2>
+  <span>Tags:</span>
+  <ul class="tags">
+    <li>HTML</li>
+    <li>JS</li>
+  </ul>
+</article>
+<article>
+  <h2>Another article</h2>
+  <span>Tags:</span>
+  <ul class="tags">
+    <li>CSS</li>
+    <li>HTML</li>
+  </ul>
+</article>
+<article>
+  <h2>Yet another article</h2>
+  <span>Tags:</span>
+  <ul class="tags">
+    <li>CSS</li>
+    <li>JS</li>
+  </ul>
+</article>
+<script src="tag-explorer.js"></script>
+<script>
+  var tagContainer = document.querySelector('.tag-container');
+  var articles = [].slice.call(document.querySelectorAll('artlce')).forEach(function (article) {
+    return {
+      'element': article,
+      'tags': [].slice.call(article.querySelectorAll('.tags li')).forEach(function (tag) {
+        return tag.textContent;
+      })
+    };
+  });
+  var tagNames = ['CSS', 'HTML', 'JS'];
+  tagExplorer();
+</script>
+</body>
+</html>
