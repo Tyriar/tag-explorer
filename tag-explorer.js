@@ -1,9 +1,18 @@
+/*!
+ * tag-explorer
+ * http://github.com/Tyriar/tag-explorer
+ *
+ * Copyright 2015 Daniel Imms (http://www.growingwiththeweb.com)
+ * Released under the MIT license
+ * http://github.com/Tyriar/tag-explorer/blob/master/LICENSE
+ */
+ 
 /**
  * Creates a tag cloud at |tagContainer| that can filter |visibleArticles| additively by multiple
  * tags.
  *
  * @param {HTMLElement} tagContainer the container the place the tags.
- * @param {Object} visibleArticles An array of article definitions to filter using the tags, each
+ * @param {Object[]} visibleArticles An array of article definitions to filter using the tags, each
  * array entry must be of the form: {'element': HTMLElement,'tags': Array}
  * @param {string[]} tagNames An array of tag names. This should contain all tags that the articles
  * contain, or more specifically, all tags wished to be filtered on.

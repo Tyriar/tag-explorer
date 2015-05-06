@@ -2,6 +2,8 @@
 
 A js library that creates a tag cloud that can filter articles additively by multiple tags.
 
+![tag-explorer example](images/explore.png)
+
 ## Multiple filters
 
 tag-explorer allows multiple tags to be filtered on, 
