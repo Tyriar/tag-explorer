@@ -2,7 +2,7 @@
 
 A js library that creates a tag cloud that can filter articles additively by multiple tags.
 
-![tag-explorer example](images/explore.png)
+![tag-explorer example](images/example.png)
 
 ## Multiple filters
 
