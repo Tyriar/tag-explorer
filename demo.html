@@ -73,7 +73,12 @@ article.active {
 </div>
 <script src="tag-explorer.js"></script>
 <script>
+  // The container to hold the tags.
   tagContainer = document.querySelector('.tag-container'); 
+
+  // An array of objects where the `'element'` property is the article element (to
+  // be hidden), and the `'tags'` attribute is an array of tags on this article.
+  // Articles do not necessarily have to be the <article> element.
   articles = [].slice.call(document.querySelectorAll('article')).map(function (article) {
     return {
      'element': article,
@@ -82,8 +87,11 @@ article.active {
      })
     };
   });
+
+  // Create an array of tag names to be available for filtering.
   tagNames = ['CSS', 'HTML', 'JS'];
 
+  // Initialise tag-explorer.
   tagExplorer(tagContainer, articles, tagNames);
 </script>
 </body>

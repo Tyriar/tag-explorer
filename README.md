@@ -1,8 +1,45 @@
-# tag-explorer
+# tag-explorer [![NPM version](http://img.shields.io/npm/v/tag-explorer.svg?style=flat)](https://www.npmjs.org/package/tag-explorer)
 
 A js library that creates a tag cloud that can filter articles by multiple tags. Each tag that is selected will fade tags that are not contained in any of the currently visible articles to allow the user to narrow down the filter much easier. The principal implementation of the library is in my website, [Growing with the Web][1] ([source code][2]).
 
 ![tag-explorer example](images/example.png)
+
+## Installing
+
+```bash
+npm install --save tag-explorer
+```
+
+## Including
+
+```html
+<script src="node_modules/tag-explorer/dist/tag-explorer.min.js"></script>
+```
+
+## Usage
+
+```javascript
+// The container to hold the tags.
+tagContainer = document.querySelector('.tag-container'); 
+
+// An array of objects where the `'element'` property is the article element (to
+// be hidden), and the `'tags'` attribute is an array of tags on this article.
+// Articles do not necessarily have to be the <article> element.
+articles = [].slice.call(document.querySelectorAll('article')).map(function (article) {
+  return {
+   'element': article,
+   'tags': [].slice.call(article.querySelectorAll('.tags li')).map(function (tag) {
+     return tag.textContent;
+   })
+  };
+});
+
+// Create an array of tag names to be available for filtering.
+tagNames = ['CSS', 'HTML', 'JS'];
+
+// Initialise tag-explorer.
+tagExplorer(tagContainer, articles, tagNames);
+```
 
 ## Stucture and styling
 
