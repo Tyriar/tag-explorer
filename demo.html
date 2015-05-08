@@ -1,46 +1,90 @@
 <html>
 <head>
 <title>tag-explorer demo</title>
+<style>
+menu {
+  padding: 0;
+}
+.tag-container li { 
+  list-style: none;
+  display: inline-block;
+}
+.tag-container .letter-header {
+  display: inline-block;
+  padding: 0 1em;
+}
+.tag-container button {
+  background-color: #AAA;
+  border: 0;
+  border-radius: 3px;
+  padding: .5em 1em;
+}
+.tag-container.show-all button,
+.tag-container .active {
+  background-color: #99E;
+}
+.tag-container .selected {
+  font-weight: bold;
+}
+
+article {
+  display: none;
+}
+article.active {
+  display: block;
+  background-color: #EEE;
+  padding: .5em 2em;
+  margin-bottom: 1em;
+}
+.wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+</style>
 </head>
 <body>
-<menu class="tag-container"></menu>
-<article>
-  <h2>An article</h2>
-  <span>Tags:</span>
-  <ul class="tags">
-    <li>HTML</li>
-    <li>JS</li>
-  </ul>
-</article>
-<article>
-  <h2>Another article</h2>
-  <span>Tags:</span>
-  <ul class="tags">
-    <li>CSS</li>
-    <li>HTML</li>
-  </ul>
-</article>
-<article>
-  <h2>Yet another article</h2>
-  <span>Tags:</span>
-  <ul class="tags">
-    <li>CSS</li>
-    <li>JS</li>
-  </ul>
-</article>
+<div class="wrapper">
+  <p>Click on tags to filter the articles below.</p>
+  <div class="tag-container"></div>
+  <article>
+    <h2>An article</h2>
+    <span>Tags:</span>
+    <ul class="tags">
+      <li>HTML</li>
+      <li>JS</li>
+    </ul>
+  </article>
+  <article>
+    <h2>Another article</h2>
+    <span>Tags:</span>
+    <ul class="tags">
+      <li>CSS</li>
+      <li>HTML</li>
+    </ul>
+  </article>
+  <article>
+    <h2>Yet another article</h2>
+    <span>Tags:</span>
+    <ul class="tags">
+      <li>CSS</li>
+      <li>JS</li>
+    </ul>
+  </article>
+</div>
 <script src="tag-explorer.js"></script>
 <script>
-  var tagContainer = document.querySelector('.tag-container');
-  var articles = [].slice.call(document.querySelectorAll('artlce')).forEach(function (article) {
+  tagContainer = document.querySelector('.tag-container'); 
+  articles = [].slice.call(document.querySelectorAll('article')).map(function (article) {
     return {
-      'element': article,
-      'tags': [].slice.call(article.querySelectorAll('.tags li')).forEach(function (tag) {
-        return tag.textContent;
-      })
+     'element': article,
+     'tags': [].slice.call(article.querySelectorAll('.tags li')).map(function (tag) {
+       return tag.textContent;
+     })
     };
   });
-  var tagNames = ['CSS', 'HTML', 'JS'];
-  tagExplorer();
+  tagNames = ['CSS', 'HTML', 'JS'];
+
+  tagExplorer(tagContainer, articles, tagNames);
 </script>
 </body>
 </html>

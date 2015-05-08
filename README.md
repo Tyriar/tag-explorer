@@ -48,4 +48,7 @@ Styles can be added rooted in `tagContainer`, for example:
 .tag-container .active { ... }
 .tag-container :not(.active) { ... }
 .tag-container .selected { ... }
+
+/* Style article visibility, this does not necessarily need to be an article tag */
+article.active { ... }
 ```
