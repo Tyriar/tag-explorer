@@ -20,11 +20,12 @@
 tagExplorer = function (tagContainer, visibleArticles, tagNames) {
   'use strict';
 
-  // TODO: Allow for optional tagNames, extract from articles instead
-  // TODO: Check tagNames after setup matches all tags in visibleArticles, post
-  //       console.warn otherwise
-  // TODO: Document the elements/classes being created
-
+  /**
+   * An array of article definitions that are currently hidden. This can be derived from querying
+   * the DOM but it is not efficient to do so, each array entry must be of the form:
+   * {'element': HTMLElement,'tags': Array}
+   * @type {Object[]}
+   */
   var hiddenArticles = [];
 
   /**
@@ -40,7 +41,6 @@ tagExplorer = function (tagContainer, visibleArticles, tagNames) {
    * @type {Object}
    */
   var tags = {};
-  var fadedTags = [];
 
   initTags();
   initTagNeighbours();
@@ -56,8 +56,6 @@ tagExplorer = function (tagContainer, visibleArticles, tagNames) {
       if (lastLetter.toUpperCase() !== tagNames[i][0].toUpperCase()) {
         // Create the letter heading
         lastLetter = tagNames[i][0].toUpperCase();
-        // TODO: Create module?
-        // TODO: Support other languages
         if (lastLetter.match(/[0-9.]/g)) {
           lastLetter = '#';
         }
@@ -87,7 +85,6 @@ tagExplorer = function (tagContainer, visibleArticles, tagNames) {
 
   function initTagNeighbours() {
     // TODO: Optimisation potential, binary search/insert
-    // TODO: The perf of this may not be reasonable with all articles
     for (var i = 0; i < visibleArticles.length; i++) {
       for (var j = 0; j < visibleArticles[i].tags.length; j++) {
         for (var k = 0; k < visibleArticles[i].tags.length; k++) {
@@ -326,35 +323,9 @@ tagExplorer = function (tagContainer, visibleArticles, tagNames) {
     return true;
   }
 
-  // TODO: Pull out in to a test and ensure tagNames is equal to it
-  // TODO: Unit test me
-  // TODO: Extract to module?
-  function getUniqueTags(articles) {
-    var map = {};
-    articles.forEach(function (article) {
-      article.tags.forEach(function (tag) {
-        map[tag] = true;
-      });
-    });
-    return extractUniqueSortedArrayFromMap(map);
-  }
-
-  // Unit test me
-  function extractUniqueSortedArrayFromMap(map) {
-    var result = [];
-    for (var key in map) {
-      result.push(key);
-    }
-    result.sort(function (a, b) {
-      return a.toLowerCase().localeCompare(b.toLowerCase());
-    });
-    return result;
-  }
-
   function getQueryParameterByName(name) {
     name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(location.search);
     return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
-  // TODO: update query string in URL when a different tag is selected
 };

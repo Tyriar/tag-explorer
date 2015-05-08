@@ -13,17 +13,19 @@ tag-explorer allows multiple tags to be filtered on,
 The following HTML is generated within `tagContainer`.
 
 ```html
-<li>
-  <div class="letter-header">A</div>
-  <button>A title</button>
-</li>
-<li>
-  <button>Another title</button>
-</li>
-<li>
-  <div class="letter-header">N</div>
-  <button>Next title</button>
-</li>
+<menu>
+  <li>
+    <div class="letter-header">A</div>
+    <button>A title</button>
+  </li>
+  <li>
+    <button>Another title</button>
+  </li>
+  <li>
+    <div class="letter-header">N</div>
+    <button>Next title</button>
+  </li>
+</menu>
 ```
 
 ### `.active` and `.selected`
@@ -40,6 +42,7 @@ Styles can be added rooted in `tagContainer`, for example:
 
 ```css
 .tag-container { ... }
+.tag-container menu { ... }
 .tag-container li { ... }
 .tag-container .letter-header { ... }
 .tag-container button { ... }
@@ -49,6 +52,10 @@ Styles can be added rooted in `tagContainer`, for example:
 .tag-container :not(.active) { ... }
 .tag-container .selected { ... }
 
+/* Hide articles without .active */
+article {
+  display: none
+}
 /* Style article visibility, this does not necessarily need to be an article tag */
 article.active { ... }
 ```
