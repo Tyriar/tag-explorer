@@ -47,7 +47,9 @@ tagExplorer = function (tagContainer, visibleArticles, tagNames) {
   initVisiblePosts();
 
   function initTags() {
-    tagNames.sort();
+    tagNames.sort(function (a, b) {
+      return a.localeCompare(b);
+    });
     var lastLetter = '';
     var menu = document.createElement('menu');
     var header;
