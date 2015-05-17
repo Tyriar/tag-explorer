@@ -28,6 +28,16 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-eslint');
+  grunt.config('eslint', {
+    dist: {
+      options: {
+        configFile: '.eslintrc',
+      },
+      src: ['tag-explorer.js']
+    }
+  });
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.config('uglify', {
     options: {
@@ -45,7 +55,8 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', [
     'clean:dist',
     'copy:dist',
-    'uglify:dist'
+    'uglify:dist',
+    'eslint'
   ]);
 
   grunt.registerTask('test', [
