@@ -62,12 +62,12 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
           lastLetter = '#';
         }
         header = document.createElement('div');
-        header.innerHTML = lastLetter;
+        header.textContent = lastLetter;
         header.setAttribute('aria-hidden', 'true');
         header.classList.add('letter-header');
       }
       var button = document.createElement('button');
-      button.innerHTML = tagNames[i];
+      button.textContent = tagNames[i];
       button.addEventListener('click', toggleTag);
       tags[tagNames[i]] = {
         'element': button,
