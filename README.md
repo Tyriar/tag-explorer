@@ -1,5 +1,7 @@
 # tag-explorer [![NPM version](http://img.shields.io/npm/v/tag-explorer.svg?style=flat)](https://www.npmjs.org/package/tag-explorer)
 
+[![Build Status](http://img.shields.io/travis/Tyriar/tag-explorer.svg?style=flat)](https://travis-ci.org/Tyriar/tag-explorer)
+
 A js library that creates a tag cloud that can filter articles by multiple tags. Each tag that is selected will fade tags that are not contained in any of the currently visible articles to allow the user to narrow down the filter much easier. The principal implementation of the library is on my website, [Growing with the Web][1] ([source code][2]).
 
 ![tag-explorer example](images/example.png)
