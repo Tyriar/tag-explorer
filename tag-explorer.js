@@ -43,9 +43,13 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
   var tags = {};
 
   function initTags() {
-    tagNames.sort(function (a, b) {
-      return a.localeCompare(b);
-    });
+    if (String.prototype.localeCompare) {
+      tagNames.sort(function (a, b) {
+        return a.localeCompare(b);
+      });
+    } else {
+      tagNames.sort();
+    }
     var lastLetter = '';
     var menu = document.createElement('menu');
     var header;
