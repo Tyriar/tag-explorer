@@ -150,11 +150,19 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     reduceFilter(tag);
   }
 
+  /**
+   * Add a tag to the filter.
+   * @param {String} tag The tag to add.
+   */
   function addTag(tag) {
     filter.push(tag);
     increaseFilter(tag);
   }
 
+  /**
+   * Increases the tag filter, hiding posts that do not match the new filter.
+   * @param {String} tag The tab to increase the filter with.
+   */
   function increaseFilter(tag) {
     for (var i = 0; i < visibleArticles.length; i++) {
       if (visibleArticles[i].tags.indexOf(tag) === -1) {
@@ -163,6 +171,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * Reduces the filter, showing posts that match the new filter.
+   * @param {String} tag The tab to reduce the filter with.
+   */
   function reduceFilter(tag) {
     var i;
     // Simple case, show all
@@ -197,12 +209,20 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * Show a post.
+   * @param {Integer} i The index of the post in {@link hiddenArticles}.
+   */
   function showPost(i) {
     hiddenArticles[i].element.classList.add('active');
     visibleArticles.push(hiddenArticles[i]);
     hiddenArticles.splice(i, 1);
   }
 
+  /**
+   * Hide a post.
+   * @param {Integer} i The index of the post in {@link visibleArticles}.
+   */
   function hidePost(i) {
     visibleArticles[i].element.classList.remove('active');
     hiddenArticles.push(visibleArticles[i]);
