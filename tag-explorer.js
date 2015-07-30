@@ -68,7 +68,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
       }
       var button = document.createElement('button');
       button.textContent = tagNames[i];
-      button.addEventListener('click', toggleTag);
+      button.addEventListener('click', toggleTag.bind(null, button));
       tags[tagNames[i]] = {
         'element': button,
         'neighbours': []
@@ -119,7 +119,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     if (tParam) {
       var paramTags = tParam.split(',');
       for (i = 0; i < paramTags.length; i++) {
-        toggleTag.call(tags[paramTags[i]].element);
+        toggleTag(tags[paramTags[i]].element);
       }
     }
 
@@ -128,18 +128,26 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
-  function toggleTag() {
-    if (this.classList.contains('selected')) {
-      this.classList.remove('selected');
-      removeTag(this.innerHTML);
-      reduceTagFade(this.innerHTML);
+  /**
+   * Toggles a tag, either increasing or decreasing the filter on the articles.
+   * @param {HTMLElement} tagButton The tag button.
+   */
+  function toggleTag(tagButton) {
+    if (tagButton.classList.contains('selected')) {
+      tagButton.classList.remove('selected');
+      removeTag(tagButton.textContent);
+      reduceTagFade(tagButton.textContent);
     } else {
-      this.classList.add('selected');
-      addTag(this.innerHTML);
-      increaseTagFade(this.innerHTML);
+      tagButton.classList.add('selected');
+      addTag(tagButton.textContent);
+      increaseTagFade(tagButton.textContent);
     }
   }
 
+  /**
+   * Remove a tag from the filter.
+   * @param {String} tag The tag to remove.
+   */
   function removeTag(tag) {
     for (var i = 0; i < filter.length; i++) {
       if (filter[i] === tag) {
