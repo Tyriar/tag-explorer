@@ -119,7 +119,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     if (tParam) {
       var paramTags = tParam.split(',');
       for (i = 0; i < paramTags.length; i++) {
-        toggleTag(tags[paramTags[i]].element);
+        var tag = tags[paramTags[i]];
+        if (tag) {
+          toggleTag(tag.element);
+        }
       }
     }
 

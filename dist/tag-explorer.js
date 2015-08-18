@@ -43,9 +43,13 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
   var tags = {};
 
   function initTags() {
-    tagNames.sort(function (a, b) {
-      return a.localeCompare(b);
-    });
+    if (String.prototype.localeCompare) {
+      tagNames.sort(function (a, b) {
+        return a.localeCompare(b);
+      });
+    } else {
+      tagNames.sort();
+    }
     var lastLetter = '';
     var menu = document.createElement('menu');
     var header;
@@ -58,13 +62,13 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
           lastLetter = '#';
         }
         header = document.createElement('div');
-        header.innerHTML = lastLetter;
+        header.textContent = lastLetter;
         header.setAttribute('aria-hidden', 'true');
         header.classList.add('letter-header');
       }
       var button = document.createElement('button');
-      button.innerHTML = tagNames[i];
-      button.addEventListener('click', toggleTag);
+      button.textContent = tagNames[i];
+      button.addEventListener('click', toggleTag.bind(null, button));
       tags[tagNames[i]] = {
         'element': button,
         'neighbours': []
@@ -115,7 +119,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     if (tParam) {
       var paramTags = tParam.split(',');
       for (i = 0; i < paramTags.length; i++) {
-        toggleTag.call(tags[paramTags[i]].element);
+        var tag = tags[paramTags[i]];
+        if (tag) {
+          toggleTag(tag.element);
+        }
       }
     }
 
@@ -124,18 +131,26 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
-  function toggleTag() {
-    if (this.classList.contains('selected')) {
-      this.classList.remove('selected');
-      removeTag(this.innerHTML);
-      reduceTagFade(this.innerHTML);
+  /**
+   * Toggles a tag, either increasing or decreasing the filter on the articles.
+   * @param {HTMLElement} tagButton The tag button.
+   */
+  function toggleTag(tagButton) {
+    if (tagButton.classList.contains('selected')) {
+      tagButton.classList.remove('selected');
+      removeTag(tagButton.textContent);
+      reduceTagFade(tagButton.textContent);
     } else {
-      this.classList.add('selected');
-      addTag(this.innerHTML);
-      increaseTagFade(this.innerHTML);
+      tagButton.classList.add('selected');
+      addTag(tagButton.textContent);
+      increaseTagFade(tagButton.textContent);
     }
   }
 
+  /**
+   * Remove a tag from the filter.
+   * @param {String} tag The tag to remove.
+   */
   function removeTag(tag) {
     for (var i = 0; i < filter.length; i++) {
       if (filter[i] === tag) {
@@ -146,11 +161,19 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     reduceFilter(tag);
   }
 
+  /**
+   * Add a tag to the filter.
+   * @param {String} tag The tag to add.
+   */
   function addTag(tag) {
     filter.push(tag);
     increaseFilter(tag);
   }
 
+  /**
+   * Increases the tag filter, hiding posts that do not match the new filter.
+   * @param {String} tag The tab to increase the filter with.
+   */
   function increaseFilter(tag) {
     for (var i = 0; i < visibleArticles.length; i++) {
       if (visibleArticles[i].tags.indexOf(tag) === -1) {
@@ -159,6 +182,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * Reduces the filter, showing posts that match the new filter.
+   * @param {String} tag The tab to reduce the filter with.
+   */
   function reduceFilter(tag) {
     var i;
     // Simple case, show all
@@ -193,12 +220,20 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * Show a post.
+   * @param {Integer} i The index of the post in {@link hiddenArticles}.
+   */
   function showPost(i) {
     hiddenArticles[i].element.classList.add('active');
     visibleArticles.push(hiddenArticles[i]);
     hiddenArticles.splice(i, 1);
   }
 
+  /**
+   * Hide a post.
+   * @param {Integer} i The index of the post in {@link visibleArticles}.
+   */
   function hidePost(i) {
     visibleArticles[i].element.classList.remove('active');
     hiddenArticles.push(visibleArticles[i]);
