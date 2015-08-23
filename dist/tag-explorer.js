@@ -42,6 +42,9 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
    */
   var tags = {};
 
+  /**
+   * Initialises the tag buttons and letter headers.
+   */
   function initTags() {
     if (String.prototype.localeCompare) {
       tagNames.sort(function (a, b) {
@@ -85,6 +88,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     tagContainer.appendChild(menu);
   }
 
+  /**
+   * Initialises tag neighbours for all tags. A tag is a tag neighbour when
+   * there is an article which contains both tags.
+   */
   function initTagNeighbours() {
     // TODO: Optimisation potential, binary search/insert
     var i, j, k;
@@ -112,6 +119,9 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * Initialises visible posts based on the query string.
+   */
   function initVisiblePosts() {
     // Check query string for any tags
     var i;
@@ -240,6 +250,11 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     visibleArticles.splice(i, 1);
   }
 
+  /**
+   * Increases the tag filter.
+   *
+   * @param {string} tag The tag to increase the filter with.
+   */
   function increaseTagFade(tag) {
     var i;
     if (tagContainer.classList.contains('show-all')) {
@@ -295,6 +310,11 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     tags[tag].element.classList.add('active');
   }
 
+  /**
+   * Reduces the tag filter.
+   *
+   * @param {string} tag The tag to reduce the filter with.
+   */
   function reduceTagFade(tag) {
     var i;
     if (!filter.length) {
@@ -331,9 +351,11 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     evaluateTagFadeState(tags[tag].element);
   }
 
+  /**
+   * Check all visible articles, if the tag is present in at least one then add
+   * the active class
+   */
   function evaluateTagFadeState(element) {
-    // Check all visible articles, if the tag is present in at least one then add
-    // the active class
     var found = false;
     for (var i = 0; i < visibleArticles.length; i++) {
       if (visibleArticles[i].tags.indexOf(element.innerHTML) !== -1) {
@@ -346,6 +368,9 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     }
   }
 
+  /**
+   * @return Whether all current filter tags are neighbours.
+   */
   function areFilterTagsNeighbours() {
     for (var i = 0; i < filter.length; i++) {
       for (var j = i + 1; j < filter.length; j++) {
@@ -358,6 +383,12 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     return true;
   }
 
+  /**
+   * Gets a query string parameter by name.
+   *
+   * @param {string} name The name of the query string parameter.
+   * @return {string} The value of the query string parameter.
+   */
   function getQueryParameterByName(name) {
     name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(location.search);
