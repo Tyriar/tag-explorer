@@ -17,7 +17,6 @@ gulp.task('build-lib', function () {
 gulp.task('build-dist', ['build-lib'], function () {
   return browserify({
     basedir: '.',
-    debug: true,
     entries: ['lib/tagExplorer.js'],
     standalone: 'tagExplorer',
     cache: {},
