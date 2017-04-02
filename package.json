@@ -5,7 +5,7 @@
   "main": "dist/tag-explorer.js",
   "scripts": {
     "build": "gulp build-min",
-    "test": "grunt test",
+    "test": "gulp test",
     "watch": "gulp"
   },
   "repository": {
