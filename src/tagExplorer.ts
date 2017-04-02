@@ -9,8 +9,6 @@
 
 declare var window: Window;
 
-// TODO: Create TagExplorer class
-
 interface IArticle {
   element: HTMLElement;
   tags: string[];
