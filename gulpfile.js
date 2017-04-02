@@ -1,11 +1,12 @@
-var gulp = require('gulp');
-var typescript = require('gulp-typescript');
 var browserify = require('browserify');
-var source = require('vinyl-source-stream');
-var uglify = require('gulp-uglify');
-var pump = require('pump');
+var gulp = require('gulp');
 var mocha = require('gulp-mocha');
+var pump = require('pump');
 var rename = require("gulp-rename");
+var shell = require('gulp-shell');
+var source = require('vinyl-source-stream');
+var typescript = require('gulp-typescript');
+var uglify = require('gulp-uglify');
 
 var tsProject = typescript.createProject('./tsconfig.json');
 
@@ -34,20 +35,22 @@ gulp.task('build-min', ['build-dist'], function (cb) {
     uglify({
       preserveComments: 'some'
     }),
-    rename("tag-explorer.min.js"),
+    rename('tag-explorer.min.js'),
     gulp.dest('dist')
   ], cb);
 });
 
 gulp.task('lint', function () {
+  return gulp.src('src/*.ts', {read: false})
+    .pipe(shell('./node_modules/.bin/tslint -c tslint.json <%= file.path %>'));
 });
 
-gulp.task('mocha', function () {
+gulp.task('mocha', ['lint'], function () {
   return gulp.src(['lib/*.test.js'])
     .pipe(mocha());
 });
 
-gulp.task('test', ['lint', 'mocha'], function () {
+gulp.task('test', ['mocha'], function () {
 });
 
 gulp.task('default', ['build-min'], function() {
