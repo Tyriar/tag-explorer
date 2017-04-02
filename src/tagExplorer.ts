@@ -7,6 +7,8 @@
  * http://github.com/Tyriar/tag-explorer/blob/master/LICENSE
  */
 
+declare var window: Window;
+
 /**
  * Creates a tag cloud at |tagContainer| that can filter |visibleArticles| additively by multiple
  * tags.
@@ -17,8 +19,13 @@
  * @param {string[]} tagNames An array of tag names. This should contain all tags that the articles
  * contain, or more specifically, all tags wished to be filtered on.
  */
-var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint-disable-line
+var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Window) { // eslint-disable-line
   'use strict';
+
+  if (!win) {
+    win = window;
+  }
+  const document = win.document;
 
   /**
    * An array of article definitions that are currently hidden. This can be derived from querying
@@ -392,7 +399,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
    */
   function getQueryParameterByName(name) {
     name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(location.search);
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(win.location.search);
     return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
 

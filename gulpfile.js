@@ -4,6 +4,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var pump = require('pump');
+var mocha = require('gulp-mocha');
 var rename = require("gulp-rename");
 
 var tsProject = typescript.createProject('./tsconfig.json');
@@ -21,10 +22,9 @@ gulp.task('build-dist', ['build-lib'], function () {
     standalone: 'tagExplorer',
     cache: {},
     packageCache: {}
-  })
-  .bundle()
-  .pipe(source('tag-explorer.js'))
-  .pipe(gulp.dest('dist'));
+  }).bundle()
+    .pipe(source('tag-explorer.js'))
+    .pipe(gulp.dest('dist'));
 });
 
 
@@ -39,6 +39,17 @@ gulp.task('build-min', ['build-dist'], function (cb) {
   ], cb);
 });
 
+gulp.task('lint', function () {
+});
+
+gulp.task('mocha', function () {
+  return gulp.src(['lib/*.test.js'])
+    .pipe(mocha());
+});
+
+gulp.task('test', ['lint', 'mocha'], function () {
+});
+
 gulp.task('default', ['build-min'], function() {
-    gulp.watch('src/*.ts', ['build-min']);
+  gulp.watch('src/*.ts', ['build-min']);
 });
