@@ -2,7 +2,7 @@
  * tag-explorer
  * http://github.com/Tyriar/tag-explorer
  *
- * Copyright 2015 Daniel Imms (http://www.growingwiththeweb.com)
+ * @license Copyright 2015 Daniel Imms (http://www.growingwiththeweb.com)
  * Released under the MIT license
  * http://github.com/Tyriar/tag-explorer/blob/master/LICENSE
  */
@@ -319,9 +319,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
     var i;
     if (!filter.length) {
       tagContainer.classList.add('show-all');
-      for (i = 0; i < tags.length; i++) {
-        tags[i].element.classList.remove('active');
-      }
+      // TODO: Fix bug
+      // for (i = 0; i < tags.length; i++) {
+      //   tags[i].element.classList.remove('active');
+      // }
       return;
     }
     // check :not(.active) tags
@@ -399,3 +400,5 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames) { // eslint
   initTagNeighbours();
   initVisiblePosts();
 };
+
+export = tagExplorer;
