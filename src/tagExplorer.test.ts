@@ -1,8 +1,8 @@
 import * as jsdom from 'jsdom';
-import * as tagExplorer from './tagExplorer';
+import tagExplorer = require('./tagExplorer');
 import { assert } from 'chai';
 
-describe('tag-explorer', function () {
+describe('tag-explorer', () => {
   let window: Window;
   let document: Document;
   let container: HTMLElement;
@@ -17,18 +17,18 @@ describe('tag-explorer', function () {
     });
   });
 
-  describe('tagExplorer', function () {
-    beforeEach(function () {
+  describe('tagExplorer', () => {
+    beforeEach(() => {
       const articles = [];
       tagExplorer(container, articles, ['a', 'aa', 'b', 'bb'], window);
     });
 
-    it('Creates a menu element', function () {
+    it('Creates a menu element', () => {
       assert.equal(container.children.length, 1);
       assert.equal((<HTMLElement>container.firstChild).tagName, 'MENU');
     });
 
-    it('Creates a button for each tag', function () {
+    it('Creates a button for each tag', () => {
       const buttons = container.querySelectorAll('menu > li > button');
       assert.equal(buttons.length, 4);
       assert.equal(buttons[0].textContent, 'a');
