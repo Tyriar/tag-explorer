@@ -2,7 +2,7 @@
   "name": "tag-explorer",
   "version": "0.1.2",
   "description": "A js library that creates a tag cloud that can filter articles additively by multiple tags.",
-  "main": "tag-explorer.js",
+  "main": "dist/tag-explorer.js",
   "scripts": {
     "build": "gulp build-min",
     "test": "grunt test",
