@@ -19,7 +19,7 @@ describe('tag-explorer', function () {
 
   describe('tagExplorer', function () {
     beforeEach(function () {
-      var articles = [];
+      const articles = [];
       tagExplorer(container, articles, ['a', 'aa', 'b', 'bb'], window);
     });
 
@@ -29,7 +29,7 @@ describe('tag-explorer', function () {
     });
 
     it('Creates a button for each tag', function () {
-      var buttons = container.querySelectorAll('menu > li > button');
+      const buttons = container.querySelectorAll('menu > li > button');
       assert.equal(buttons.length, 4);
       assert.equal(buttons[0].textContent, 'a');
       assert.equal(buttons[1].textContent, 'aa');

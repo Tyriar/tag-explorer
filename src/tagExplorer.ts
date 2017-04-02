@@ -19,7 +19,7 @@ declare var window: Window;
  * @param {string[]} tagNames An array of tag names. This should contain all tags that the articles
  * contain, or more specifically, all tags wished to be filtered on.
  */
-var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Window) { // eslint-disable-line
+function tagExplorer(tagContainer, visibleArticles, tagNames, win?: Window) { // eslint-disable-line
   'use strict';
 
   if (!win) {
@@ -33,13 +33,13 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * {'element': HTMLElement,'tags': Array}
    * @type {Object[]}
    */
-  var hiddenArticles = [];
+  const hiddenArticles = [];
 
   /**
    * The current tag filter
    * @type {string[]}
    */
-  var filter = [];
+  const filter = [];
 
   /**
    * A map of tag names that map to {Object}s. The {Object}s are made up of an
@@ -47,7 +47,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * element, and an {Array} of {string}s made up of the tag's "neighbour tags".
    * @type {Object}
    */
-  var tags = {};
+  let tags = {};
 
   /**
    * Initialises the tag buttons and letter headers.
@@ -60,10 +60,10 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
     } else {
       tagNames.sort();
     }
-    var lastLetter = '';
-    var menu = document.createElement('menu');
-    var header;
-    for (var i = 0; i < tagNames.length; i++) {
+    let lastLetter = '';
+    const menu = document.createElement('menu');
+    let header;
+    for (let i = 0; i < tagNames.length; i++) {
       header = undefined;
       if (lastLetter.toUpperCase() !== tagNames[i][0].toUpperCase()) {
         // Create the letter heading
@@ -76,14 +76,14 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
         header.setAttribute('aria-hidden', 'true');
         header.classList.add('letter-header');
       }
-      var button = document.createElement('button');
+      const button = document.createElement('button');
       button.textContent = tagNames[i];
       button.addEventListener('click', toggleTag.bind(null, button));
       tags[tagNames[i]] = {
         'element': button,
         'neighbours': []
       };
-      var li = document.createElement('li');
+      const li = document.createElement('li');
       if (header) {
         li.appendChild(header);
       }
@@ -101,10 +101,9 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    */
   function initTagNeighbours() {
     // TODO: Optimisation potential, binary search/insert
-    var i, j, k;
-    for (i = 0; i < visibleArticles.length; i++) {
-      for (j = 0; j < visibleArticles[i].tags.length; j++) {
-        for (k = 0; k < visibleArticles[i].tags.length; k++) {
+    for (let i = 0; i < visibleArticles.length; i++) {
+      for (let j = 0; j < visibleArticles[i].tags.length; j++) {
+        for (let k = 0; k < visibleArticles[i].tags.length; k++) {
           if (j !== k) {
             if (tags[visibleArticles[i].tags[j]].neighbours.indexOf(visibleArticles[i].tags[k]) === -1) {
               tags[visibleArticles[i].tags[j]].neighbours.push(visibleArticles[i].tags[k]);
@@ -113,9 +112,9 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
         }
       }
     }
-    for (i = 0; i < hiddenArticles.length; i++) {
-      for (j = 0; j < hiddenArticles[i].tags.length; j++) {
-        for (k = 0; k < hiddenArticles[i].tags.length; k++) {
+    for (let i = 0; i < hiddenArticles.length; i++) {
+      for (let j = 0; j < hiddenArticles[i].tags.length; j++) {
+        for (let k = 0; k < hiddenArticles[i].tags.length; k++) {
           if (j !== k) {
             if (tags[hiddenArticles[i].tags[j]].neighbours.indexOf(hiddenArticles[i].tags[k]) === -1) {
               tags[hiddenArticles[i].tags[j]].neighbours.push(hiddenArticles[i].tags[k]);
@@ -131,19 +130,18 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    */
   function initVisiblePosts() {
     // Check query string for any tags
-    var i;
-    var tParam = getQueryParameterByName('t');
+    const tParam = getQueryParameterByName('t');
     if (tParam) {
-      var paramTags = tParam.split(',');
-      for (i = 0; i < paramTags.length; i++) {
-        var tag = tags[paramTags[i]];
+      const paramTags = tParam.split(',');
+      for (let i = 0; i < paramTags.length; i++) {
+        const tag = tags[paramTags[i]];
         if (tag) {
           toggleTag(tag.element);
         }
       }
     }
 
-    for (i = 0; i < visibleArticles.length; i++) {
+    for (let i = 0; i < visibleArticles.length; i++) {
       visibleArticles[i].element.classList.add('active');
     }
   }
@@ -169,7 +167,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @param {String} tag The tag to remove.
    */
   function removeTag(tag) {
-    for (var i = 0; i < filter.length; i++) {
+    for (let i = 0; i < filter.length; i++) {
       if (filter[i] === tag) {
         filter.splice(i, 1);
         break;
@@ -192,7 +190,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @param {String} tag The tab to increase the filter with.
    */
   function increaseFilter(tag) {
-    for (var i = 0; i < visibleArticles.length; i++) {
+    for (let i = 0; i < visibleArticles.length; i++) {
       if (visibleArticles[i].tags.indexOf(tag) === -1) {
         hidePost(i--);
       }
@@ -204,27 +202,26 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @param {String} tag The tab to reduce the filter with.
    */
   function reduceFilter(tag) {
-    var i;
     // Simple case, show all
     if (!filter.length) {
       // TODO: Can be optimized by bulk copying
-      for (i = 0; i < hiddenArticles.length; i++) {
+      for (let i = 0; i < hiddenArticles.length; i++) {
         showPost(i--);
       }
       // Remove active from all articles
-      var activeTags = tagContainer.querySelectorAll('.active');
-      for (i = 0; i < activeTags.length; i++) {
+      const activeTags = tagContainer.querySelectorAll('.active');
+      for (let i = 0; i < activeTags.length; i++) {
         activeTags[i].classList.remove('active');
       }
     }
     // If post contains tag, reevaluate
-    for (i = 0; i < hiddenArticles.length; i++) {
+    for (let i = 0; i < hiddenArticles.length; i++) {
       // Only need to check if the post DIDN'T contain the removed tag
       if (hiddenArticles[i].tags.indexOf(tag) === -1) {
         // TODO: Potential for data structure optimisation?
-        var visible = true;
+        let visible = true;
         // Each tag in the filter must be on the post
-        for (var k = 0; k < filter.length; k++) {
+        for (let k = 0; k < filter.length; k++) {
           if (hiddenArticles[i].tags.indexOf(filter[k]) === -1) {
             visible = false;
             break;
@@ -263,38 +260,37 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @param {string} tag The tag to increase the filter with.
    */
   function increaseTagFade(tag) {
-    var i;
     if (tagContainer.classList.contains('show-all')) {
       tagContainer.classList.remove('show-all');
     }
     if (filter.length === 1) {
       // if it was the first activated tag, highlight all neighbours
-      for (i = 0; i < tags[tag].neighbours.length; i++) {
+      for (let i = 0; i < tags[tag].neighbours.length; i++) {
         tags[tags[tag].neighbours[i]].element.classList.add('active');
       }
     } else {
       // only proceed if the new tag is a neighbour of the previous tags (ie. it's inactive)
-      var isNeighbour = true;
-      for (i = 0; i < filter.length; i++) {
+      let isNeighbour = true;
+      for (let i = 0; i < filter.length; i++) {
         if (filter[i] !== tag && tags[filter[i]].neighbours.indexOf(tag) === -1) {
           isNeighbour = false;
         }
       }
-      var activeTags;
+      let activeTags;
       if (isNeighbour) {
         // deactivate any active tags that are not neighbours of the new tag
         activeTags = tagContainer.querySelectorAll('.active:not(.selected)');
         // Need to check articles here, not tags
-        for (i = 0; i < activeTags.length; i++) {
+        for (let i = 0; i < activeTags.length; i++) {
           if (tags[tag].neighbours.indexOf(activeTags[i].innerHTML) === -1) {
             activeTags[i].classList.remove('active');
           }
         }
 
         // Check all visible articles for the tag, if it's not present, remove .active
-        for (i = 0; i < activeTags.length; i++) {
-          var found = false;
-          for (var j = 0; j < visibleArticles.length; j++) {
+        for (let i = 0; i < activeTags.length; i++) {
+          let found = false;
+          for (let j = 0; j < visibleArticles.length; j++) {
             if (visibleArticles[j].tags.indexOf(activeTags[i].innerHTML) !== -1) {
               // It was found, exit
               found = true;
@@ -309,7 +305,7 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
         // hide all non-selected active tags
         // TODO: Could be merged with the above section, could make complex though
         activeTags = tagContainer.querySelectorAll('.active:not(.selected)');
-        for (i = 0; i < activeTags.length; i++) {
+        for (let i = 0; i < activeTags.length; i++) {
           activeTags[i].classList.remove('active');
         }
       }
@@ -323,7 +319,6 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @param {string} tag The tag to reduce the filter with.
    */
   function reduceTagFade(tag) {
-    var i;
     if (!filter.length) {
       tagContainer.classList.add('show-all');
       // TODO: Fix bug
@@ -334,17 +329,17 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
     }
     // check :not(.active) tags
     if (areFilterTagsNeighbours()) {
-      var inactiveTags = tagContainer.querySelectorAll('button:not(.active)');
-      for (i = 0; i < inactiveTags.length; i++) {
+      const inactiveTags = tagContainer.querySelectorAll('button:not(.active)');
+      for (let i = 0; i < inactiveTags.length; i++) {
         // if they do not contain the tag
         // re-evaluate them - check if the tag is in every filter tag neighbour set
         evaluateTagFadeState(inactiveTags[i]);
       }
     }
     // if the removed tag is not a neighbour of all filter tags, remove active
-    var faded = false;
-    for (i = 0; i < filter.length; i++) {
-      for (var j = 0; j < tags[filter[i]].neighbours.length; j++) {
+    let faded = false;
+    for (let i = 0; i < filter.length; i++) {
+      for (let j = 0; j < tags[filter[i]].neighbours.length; j++) {
         if (tags[filter[i]].neighbours.indexOf(tag) === -1) {
           faded = true;
           break;
@@ -364,8 +359,8 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * the active class
    */
   function evaluateTagFadeState(element) {
-    var found = false;
-    for (var i = 0; i < visibleArticles.length; i++) {
+    let found = false;
+    for (let i = 0; i < visibleArticles.length; i++) {
       if (visibleArticles[i].tags.indexOf(element.innerHTML) !== -1) {
         found = true;
         break;
@@ -380,8 +375,8 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    * @return Whether all current filter tags are neighbours.
    */
   function areFilterTagsNeighbours() {
-    for (var i = 0; i < filter.length; i++) {
-      for (var j = i + 1; j < filter.length; j++) {
+    for (let i = 0; i < filter.length; i++) {
+      for (let j = i + 1; j < filter.length; j++) {
         if (tags[filter[i]].neighbours.indexOf(filter[j]) === -1 ||
             tags[filter[j]].neighbours.indexOf(filter[i]) === -1) {
           return false;
@@ -399,13 +394,13 @@ var tagExplorer = function (tagContainer, visibleArticles, tagNames, win?: Windo
    */
   function getQueryParameterByName(name) {
     name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(win.location.search);
+    const regex = new RegExp('[\\?&]' + name + '=([^&#]*)'), results = regex.exec(win.location.search);
     return results == null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
   }
 
   initTags();
   initTagNeighbours();
   initVisiblePosts();
-};
+}
 
 export = tagExplorer;
